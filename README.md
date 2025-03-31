@@ -4,6 +4,7 @@
 
 [![YT-DLP](https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/.github/banner.svg)](#readme)
 
+[![Pandadownload](https://raw.githubusercontent.com/tonyblues8/PandaDownload/refs/heads/main/pic/jp.png)]
 </div>
 
 本人运行环境：mac min M4 MacOS 15.3.2
