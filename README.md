@@ -5,13 +5,15 @@
 [![YT-DLP](https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/.github/banner.svg)](#readme)
 
 [![Pandadownload](https://raw.githubusercontent.com/tonyblues8/PandaDownload/refs/heads/main/pic/jp.png)](#readme)
+
 </div>
+
 
 本人运行环境：mac min M4 MacOS 15.3.2
 
 实现了<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>图形界面功能
 
-<strong>增强功能：</strong>
+# 增强功能:
 
 1:aria2c加速；
 
@@ -20,7 +22,7 @@
 3:H265编码；
 
 
-<strong>相关依赖：</strong>
+# 相关依赖：
 
 1:<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>
 
@@ -30,7 +32,7 @@
 
 以上依赖无需单独安装，都已经集成在本安装包内。
 
-<strong>编译依赖如下:</strong>
+# 编译依赖如下:
 
 #C++
 
