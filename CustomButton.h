@@ -1,0 +1,38 @@
+#pragma once
+#include <wx/wx.h>
+
+class CustomButton : public wxPanel
+{
+public:
+    CustomButton(wxWindow* parent, wxWindowID id, const wxString& label, const wxBitmap& bitmap = wxNullBitmap, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
+
+    bool SetBackgroundColour(const wxColour& colour) wxOVERRIDE; // 修改为 bool 类型
+    bool SetForegroundColour(const wxColour& colour) wxOVERRIDE; // 修改为 bool 类型
+    //void SetLabel(const wxString& label);
+    void SetBitmap(const wxBitmap& bitmap);
+    void SetLabel(const wxString& label) override; // 加上override
+
+    void SetPosition(const wxPoint& pos); // 声明 SetPosition 方法
+    void SetSize(const wxSize& size);     // 声明 SetSize 方法
+    wxPoint GetPosition() const;          // 声明 GetPosition 方法
+    wxSize GetSize() const;               // 声明 GetSize 方法
+
+protected:
+    void OnPaint(wxPaintEvent& event);
+    void OnLeftDown(wxMouseEvent& event);
+    void OnLeftUp(wxMouseEvent& event);
+
+private:
+    wxColour m_bgColour;
+    wxColour m_fgColour;
+    wxString m_label;
+    wxBitmap m_bitmap;
+    bool m_pressed;
+
+    wxPoint m_position; // 声明 m_position 成员变量
+    wxSize m_size;      // 声明 m_size 成员变量
+
+    void DrawButton(wxDC& dc);
+
+    wxDECLARE_EVENT_TABLE();
+};
