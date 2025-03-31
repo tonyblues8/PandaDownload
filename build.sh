@@ -21,10 +21,6 @@ APP="/Applications/熊猫下载.app"
 #FRAMEWORKS_PATH="$APP/Contents/Frameworks"
 FRAMEWORKS_PATH="$APP/Contents/MacOS"
 EXECUTABLE_PATH="$APP/Contents/MacOS/ytui"
-EXECUTABLE_PATH2="$APP/Contents/Resources/zsprundir/bin/yt-dlp"
-EXECUTABLE_PATH3="$APP/Contents/Resources/zsprundir/bin/ffmpeg"
-EXECUTABLE_PATH4="$APP/Contents/Resources/zsprundir/bin/ffprobe"
-EXECUTABLE_PATH5="$APP/Contents/Resources/zsprundir/bin/aria2c"
 
 # 使用 otool 获取非系统依赖列表
 echo "分析可执行文件的动态库依赖..."
@@ -51,55 +47,3 @@ for DEP in $DEPENDENCIES; do
 done
 echo "所有动态库处理完成"
 
-# 定义变量
-PASSWORD="yuxiang"
-#LOCAL_FILE="$APP/Contents/MacOS/ytui"
-REMOTE_USER="root"
-REMOTE_HOST="192.168.3.5"
-REMOTE_PATH="/home/ubuntu/zspcms/afile/opt/lampp/htdocs/tp/public/zspdl/ytui"
-REMOTE_PATH2="/home/ubuntu/zspcms/afile/opt/lampp/htdocs/tp/public/zspdl/yt-dlp_mac"
-REMOTE_PATH3="/home/ubuntu/zspcms/afile/opt/lampp/htdocs/tp/public/zspdl/ffmpeg"
-REMOTE_PATH4="/home/ubuntu/zspcms/afile/opt/lampp/htdocs/tp/public/zspdl/ffprobe"
-REMOTE_PATH5="/home/ubuntu/zspcms/afile/opt/lampp/htdocs/tp/public/zspdl/aria2c_mac"
-
-# 使用 sshpass 和 scp 进行文件传输
-sshpass -p "$PASSWORD" scp "$EXECUTABLE_PATH" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
-# 等待 scp 传输完成
-wait
-echo "$EXECUTABLE_PATH 文件上传成功"
-sshpass -p "$PASSWORD" scp "$EXECUTABLE_PATH2" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH2"
-# 等待 scp 传输完成
-wait
-echo "$EXECUTABLE_PATH2 文件上传成功"
-sshpass -p "$PASSWORD" scp "$EXECUTABLE_PATH3" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH3"
-# 等待 scp 传输完成
-wait
-echo "$EXECUTABLE_PATH3 文件上传成功"
-sshpass -p "$PASSWORD" scp "$EXECUTABLE_PATH4" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH4"
-# 等待 scp 传输完成
-wait
-echo "$EXECUTABLE_PATH4 文件上传成功"
-sshpass -p "$PASSWORD" scp "$EXECUTABLE_PATH5" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH5"
-# 等待 scp 传输完成
-wait
-echo "$EXECUTABLE_PATH5 文件上传成功"
-# 使用 sshpass 和 ssh 连接到远程服务器并执行命令
-sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" << EOF
-    /usr/bin/md5sum $REMOTE_PATH | /usr/bin/awk '{printf "%s", \$1}' > /home/ubuntu/zspcms/afile/opt/lampp/htdocs/tp/public/zspdl/zspdlmd52
-    exit
-EOF
-
-echo "文件传输和MD5计算完成"
-
-cd /Users/tony/Desktop/installer
-#./b.sh
-
-cd $shellpath
-#./ytui
-#sudo mv zspdl /usr/bin/
-#sudo chown root:wheel /usr/bin/zspdl
-#sudo chmod -Rf 4755 /usr/bin/zspdl
-#echo "#!/bin/bash" > app.sh
-#echo "zspdl" >> app.sh
-#chmod +x app.sh
-#2app app.sh "周视频"
