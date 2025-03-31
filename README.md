@@ -11,7 +11,7 @@
 
 实现了<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>图形界面功能
 
-<b>增强功能：</b>
+<strong>增强功能：</strong>
 
 1:aria2c加速；
 
@@ -20,7 +20,7 @@
 3:H265编码；
 
 
-<b>相关依赖：</b>
+<strong>相关依赖：</strong>
 
 1:<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>
 
@@ -30,7 +30,7 @@
 
 以上依赖无需单独安装，都已经集成在本安装包内。
 
-<b>编译依赖如下</b>
+<strong>编译依赖如下:</strong>
 
 #C++
 
