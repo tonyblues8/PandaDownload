@@ -158,6 +158,7 @@ bool MyApp::OnInit()
         std::cout << CYAN << "Python 3.10 found!" << RESET << std::endl;
     } else {
         std::cerr << CYAN << "Python 3.10 or pip not found! Please install manually." << RESET << std::endl;
+        wxMessageBox("Python 3.10 or pip not found! Please install manually.", "提示", wxOK | wxICON_INFORMATION);
         return 1;
     }
     std::vector<std::pair<std::string, std::string>> packages = {
@@ -173,6 +174,7 @@ bool MyApp::OnInit()
             Command::InstallPythonPackage(pythonPath, pkg.first, pkg.second);
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
+            wxMessageBox(e.what(), "提示", wxOK | wxICON_INFORMATION);
         }
     }
 
