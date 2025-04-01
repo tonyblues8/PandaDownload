@@ -24,11 +24,14 @@
 
 # 相关依赖：
 
-1:<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>
+## <a href="https://www.python.org/">python3.10</a>
 
-2:<a href="https://github.com/FFmpeg/FFmpeg">ffmpeg</a>
+## <a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>
 
-3:<a href="https://github.com/aria2/aria2">aria2c</a>
+## <a href="https://github.com/FFmpeg/FFmpeg">ffmpeg</a>
+
+## <a href="https://github.com/aria2/aria2">aria2c</a>
+
 
 以上依赖无需单独安装，都已经集成在本安装包内。
 
