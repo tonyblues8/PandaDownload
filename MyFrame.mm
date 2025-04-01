@@ -118,7 +118,7 @@ const std::vector<std::tuple<const unsigned char*, size_t, wxString>> adImages =
 };
 MyFrame::MyFrame()
     : wxFrame(nullptr, wxID_ANY, wxString::FromUTF8("熊猫下载v2.0.0[让一切视听自由分享]"),
-              wxDefaultPosition, wxSize(800, 800),
+              wxDefaultPosition, wxSize(800, 850),
               wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)),
       m_menu(new wxMenu()), m_dragging(false), m_isMaximized(false),
       m_currentAdIndex(0), m_downloading(false), m_ffmpeging(false),
@@ -254,6 +254,7 @@ void MyFrame::InitUI() {
     inputSizer2 = new wxBoxSizer(wxHORIZONTAL);
     checkvideoSizer = new wxBoxSizer(wxHORIZONTAL);
     checkvideoSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    otherprm = new wxBoxSizer(wxHORIZONTAL);
     wxString homeDir = wxGetHomeDir();
     wxString filename = wxString::Format(homeDir + "/zsprundir/dark_zplayer.txt");
     filename = Command::NormalizePath(filename.ToStdString());
@@ -466,7 +467,13 @@ void MyFrame::InitUI() {
     m_qualityChoice2 = new wxComboBox(content, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, qualityChoices2,wxCB_READONLY);
     m_qualityChoice2->SetSelection(0);
     m_qualityChoice2->SetMinSize(wxSize(500, 30));
-    wxStaticText* versionTexte = new wxStaticText(content, wxID_ANY, wxString::FromUTF8("主程序版本号:v:2025.03.28[yt-dlp:2025.03.26][ffmpeg:N-117950-gf57f2a356d-tessus][ffprobe:N-117950-gf57f2a356d-tessus]."));
+
+    wxStaticText* staticText3 = new wxStaticText(content, wxID_ANY, wxString::FromUTF8("其他参数："));
+    m_textCtrl3 = new wxTextCtrl(content, wxID_ANY);
+    m_textCtrl3->SetMinSize(wxSize(200, 30));
+    m_textCtrl3->Bind(wxEVT_KEY_DOWN, &MyFrame::OnTextCtrlKeyDown, this);
+
+    wxStaticText* versionTexte = new wxStaticText(content, wxID_ANY, wxString::FromUTF8("主程序版本号:v:2025.04.01[yt-dlp:2025.03.31][ffmpeg:N-117950-gf57f2a356d-tessus][ffprobe:N-117950-gf57f2a356d-tessus]."));
     wxFont versionTextefont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     versionTexte->SetFont(versionTextefont);
     m_gauge->SetBackgroundAndForeground(backgroundColor, textColor);
@@ -511,12 +518,17 @@ void MyFrame::InitUI() {
     checkvideoSizer->Add(lookfButton, 0, wxALL, 5);
     checkvideoSizer->Add(m_qualityChoice2, 1, wxEXPAND | wxALL, 5);
     checkvideoSizer2->Add(m_qualityChoice, 1, wxEXPAND | wxALL, 5);
+
+    otherprm->Add(staticText3, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+    otherprm->Add(m_textCtrl3, 1, wxALL | wxEXPAND, 5);
+
     mainSizer2->Add(adSizer, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 10);
     mainSizer2->Add(inputSizer, 0, wxALL | wxEXPAND, 10);
     mainSizer2->Add(inputSizer2, 0, wxALL | wxEXPAND, 10);
     mainSizer2->Add(buttonSizer, 0, wxALL, 10);
     mainSizer2->Add(checkvideoSizer, 0, wxALL | wxEXPAND, 10);
     mainSizer2->Add(checkvideoSizer2, 0, wxALL | wxEXPAND, 10);
+    mainSizer2->Add(otherprm, 0, wxALL | wxEXPAND, 10);
     mainSizer2->Add(selectSizer, 0, wxALL | wxEXPAND, 10);
     mainSizer2->Add(controlSizer, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 10);
     mainSizer2->Add(m_gauge, 0, wxALL | wxEXPAND, 10);
@@ -937,14 +949,20 @@ void MyFrame::InitUI() {
             startplaytag = " --exec 'open {}'";
         }
 
+        wxString otherprmstrtag = "";
+        wxString otherprmstr = m_textCtrl3->GetValue();
+        if (!otherprmstr.IsEmpty()) {
+            otherprmstrtag = wxString::Format(" %s", otherprmstr);
+        }
+
         wxString command;
         #ifdef _WIN32
             command = wxString::Format("python3 \"%s\" \"%s\"%s%s%s%s%s%s%s%s%s%s%s%s", afilePath, url, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption);
         #else
             if (m_toggleButton8->GetValue()) {
-              command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag, startplaytag);
+              command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag, startplaytag, otherprmstrtag);
             }else{
-            	command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos --extractor-arg 'youtube:player_client=tv' > /dev/null 2>&1\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag,startplaytag);
+            	command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos --extractor-arg 'youtube:player_client=tv' > /dev/null 2>&1\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag,startplaytag, otherprmstrtag);
             }
         #endif
         //wxLogError(command);
@@ -1610,7 +1628,7 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() - 60;
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
             content->Update();
             content->Layout();
             content->Refresh();
@@ -1621,10 +1639,10 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() + 60;
-            if (newHeight > 760) {
-                newHeight = 760;
+            if (newHeight > 850) {
+                newHeight = 850;
             }
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
             content->Update();
             content->Layout();
             content->Refresh();
@@ -1658,7 +1676,7 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() - 120;
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
             content->Update();
             content->Layout();
             content->Refresh();
@@ -1669,10 +1687,10 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() + 120;
-            if (newHeight > 760) {
-                newHeight = 760;
+            if (newHeight > 810) {
+                newHeight = 810;
             }
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
             content->Update();
             content->Layout();
             content->Refresh();

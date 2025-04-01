@@ -134,6 +134,7 @@ private:
     size_t m_currentAdIndex;
     wxTextCtrl* m_textCtrl;
     wxTextCtrl* m_textCtrl2;
+    wxTextCtrl* m_textCtrl3;
     wxTextCtrl* m_dirPathTextCtrl;
     wxTextCtrl* m_dirPathTextCtrl2;
     wxTextCtrl* m_dirPathTextCtrl3;
@@ -201,6 +202,7 @@ private:
     wxBoxSizer* inputSizer2;
     wxBoxSizer* checkvideoSizer;
     wxBoxSizer* checkvideoSizer2;
+    wxBoxSizer* otherprm;
 
     MyProcess* process;
     wxTimer m_timer5;
