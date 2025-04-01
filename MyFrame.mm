@@ -1264,7 +1264,7 @@ void MyFrame::InitUI() {
                           wxSize currentSize = GetSize();
                           int newWidth = currentSize.GetWidth();
                           int newHeight = currentSize.GetHeight() - 120;
-                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 690));
                           content->Update();
                           content->Layout();
                           content->Refresh();
@@ -1276,10 +1276,10 @@ void MyFrame::InitUI() {
                           wxSize currentSize = GetSize();
                           int newWidth = currentSize.GetWidth();
                           int newHeight = currentSize.GetHeight() + 120;
-                          if (newHeight > 760) {
-                              newHeight = 760;
+                          if (newHeight > 810) {
+                              newHeight = 810;
                           }
-                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 810));
                           content->Update();
                           content->Layout();
                           content->Refresh();
@@ -1298,7 +1298,7 @@ void MyFrame::InitUI() {
                           wxSize currentSize = GetSize();
                           int newWidth = currentSize.GetWidth();
                           int newHeight = currentSize.GetHeight() - 60;
-                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 750));
                           content->Update();
                           content->Layout();
                           content->Refresh();
@@ -1308,10 +1308,10 @@ void MyFrame::InitUI() {
                           wxSize currentSize = GetSize();
                           int newWidth = currentSize.GetWidth();
                           int newHeight = currentSize.GetHeight() + 60;
-                          if (newHeight > 760) {
-                              newHeight = 760;
+                          if (newHeight > 810) {
+                              newHeight = 810;
                           }
-                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 480));
+                          SetSize(wxMax(newWidth, 800), wxMax(newHeight, 810));
                           content->Update();
                           content->Layout();
                           content->Refresh();
@@ -1628,7 +1628,7 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() - 60;
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 750));
             content->Update();
             content->Layout();
             content->Refresh();
@@ -1639,10 +1639,10 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() + 60;
-            if (newHeight > 850) {
-                newHeight = 850;
+            if (newHeight > 810) {
+                newHeight = 810;
             }
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 810));
             content->Update();
             content->Layout();
             content->Refresh();
@@ -1676,7 +1676,7 @@ void MyFrame::InitUI() {
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth();
             int newHeight = currentSize.GetHeight() - 120;
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 690));
             content->Update();
             content->Layout();
             content->Refresh();
@@ -1690,7 +1690,7 @@ void MyFrame::InitUI() {
             if (newHeight > 810) {
                 newHeight = 810;
             }
-            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 530));
+            SetSize(wxMax(newWidth, 800), wxMax(newHeight, 810));
             content->Update();
             content->Layout();
             content->Refresh();
