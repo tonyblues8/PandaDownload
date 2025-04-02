@@ -11,7 +11,7 @@
 
 本人运行环境：mac min M4 MacOS 15.3.2
 
-实现了<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>图形界面功能，你可以在其他参数栏输入yt-dlp支持的所有参数。
+实现了<a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>图形界面功能，你可以在其他参数栏手动输入yt-dlp支持的所有参数。
 
 # 增强功能:
 
