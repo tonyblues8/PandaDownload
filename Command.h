@@ -70,6 +70,7 @@ public:
     static int ExecCommand(const std::string& command, std::string* output);//if (Command::ExecCommand("command -v /usr/local/bin/python3 > /dev/null 2>&1") == 0)
     static bool CheckPip(const std::string& pythonPath);
     static bool CheckPythonVersion(const std::string& pythonPath);
+    static void CheckPythonInstallation(const std::string& pythonPath);
 
     static void InstallPythonPackage(const std::string& pythonPath, const std::string& package, const std::string& pipName);
 #ifdef _WIN32
