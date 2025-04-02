@@ -1,4 +1,5 @@
 #include "Command.h"
+#include "AutoCloseDialog.h"
 #include <wx/wx.h>
 #include <wx/string.h>
 #include <wx/filesys.h>
@@ -26,7 +27,6 @@
 #endif
 
 #ifdef __APPLE__
-#include <iostream>
 #include <Cocoa/Cocoa.h>
 
 #include <objc/objc.h>
@@ -41,6 +41,11 @@
 #include "pic/imageoff.h"
 #include "pic/imageon1.h"
 #include "pic/imageoff1.h"
+
+
+#include <chrono>
+#include <thread>
+
 
 #ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
@@ -520,6 +525,7 @@ bool Command::CheckPythonVersion(const std::string& pythonPath){
 }
 void Command::InstallPythonPackage(const std::string& pythonPath, const std::string& package, const std::string& pipName = ""){
     std::string pkgName = pipName.empty() ? package : pipName;
+    wxInitAllImageHandlers();
     // 检查包是否已安装
     std::string checkCommand = pythonPath + " -c 'import " + package + "' > /dev/null 2>&1";
     if (Command::ExecCommand(checkCommand) == 0) {
@@ -533,15 +539,93 @@ void Command::InstallPythonPackage(const std::string& pythonPath, const std::str
     std::cout << "Installing " << pkgName << "..." << std::endl;
     if (Command::ExecCommand(installCommand) != 0) {
         //#ifdef DEBUG
+        wxString message = wxString::Format("Failed to install:%s",pkgName);
+        wxLogMessage(message);
         throw std::runtime_error("Failed to install " + pkgName);
         //#endif
     }
     #ifdef DEBUG
     std::cout << "Successfully installed " << pkgName << "." << std::endl;
     #endif
+    wxString message = wxString::Format("Successfully installed:%s",pkgName);
+    AutoCloseDialog* dlg = new AutoCloseDialog(NULL, message, 3000);
+    dlg->ShowModal();
 }
 
+void Command::CheckPythonInstallation(const std::string& pythonPath)
+{
+    // 检查 python3 是否安装
+    wxInitAllImageHandlers();
+    std::ostringstream command;
+    command << "command -v " << pythonPath << " > /dev/null 2>&1";
+    if (system(command.str().c_str()) == 0)
+    {
+        // Python3 已安装，检查其功能
+        command.str("");  // 清空之前的命令
+        command << pythonPath << " -c \"print('ye')\"";
+        if (system(command.str().c_str()) == 0 && Command::CheckPythonVersion(pythonPath))
+        {
+            std::cout << pythonPath << " found!" << std::endl;
+        }
+        else
+        {
+            std::cout << pythonPath << " found but non-functional." << std::endl;
+            // 弹出对话框，提示用户安装必要工具
+            wxMessageDialog msg(NULL, "If you received a popup asking to install some tools, please accept.", "Install Tools", wxOK);
+            if (msg.ShowModal() == wxID_OK)
+            {
+                std::cout << "User needs to install additional tools." << std::endl;
+                // 自动安装缺少的工具（例如，xcode-select 在 macOS 上的安装）
+                if (system("xcode-select --install") != 0)
+                {
+                    std::cout << "Failed to trigger tool installation." << std::endl;
+                    wxLogMessage("Failed to trigger tool installation.");
+                }
+                else
+                {
+                    std::cout << "Installation command triggered successfully." << std::endl;
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Installing python3..." << std::endl;
+        AutoCloseDialog* dlg = new AutoCloseDialog(NULL, wxString::FromUTF8("python3 not found or < 3.1.0, now Installing python3..."), 5000);
+        dlg->ShowModal();
+        // 如果 brew 不存在，先安装 Homebrew
+        if (system("command -v brew > /dev/null 2>&1") != 0)
+        {
+            system("/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)\"");
+        }
+        system("brew install python");
+    }
 
+    // 检查 pip 是否可用
+    command.str("");  // 清空之前的命令
+    command << pythonPath << " -m pip --version > /dev/null 2>&1";
+    if (system(command.str().c_str()) != 0)
+    {
+        std::cout << "pip not found. Installing pip..." << std::endl;
+        AutoCloseDialog* dlg = new AutoCloseDialog(NULL, wxString::FromUTF8("pip not found. Installing pip..."), 5000);
+        dlg->ShowModal();
+        command.str("");  // 清空之前的命令
+        command << pythonPath << " -m ensurepip --upgrade";
+        if (system(command.str().c_str()) != 0)
+        {
+            std::cout << "Failed to install pip." << std::endl;
+            wxLogMessage("Failed to install pip.");
+        }
+        else
+        {
+            std::cout << "pip installed successfully." << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "pip found." << std::endl;
+    }
+}
 
 //以下调用方式
 //Command cmd
