@@ -52,7 +52,7 @@ done
 echo "所有动态库处理完成"
 
 # 定义变量
-PASSWORD="yuxiang"
+PASSWORD=""
 #LOCAL_FILE="$APP/Contents/MacOS/ytui"
 REMOTE_USER="root"
 REMOTE_HOST="192.168.3.5"
