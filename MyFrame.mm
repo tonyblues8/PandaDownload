@@ -962,7 +962,7 @@ void MyFrame::InitUI() {
             if (m_toggleButton8->GetValue()) {
               command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag, startplaytag, otherprmstrtag);
             }else{
-            	command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos --extractor-arg 'youtube:player_client=tv' > /dev/null 2>&1\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag,startplaytag, otherprmstrtag);
+            	command = wxString::Format("/bin/bash -c \"%s '%s'%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s --compat-options no-youtube-unavailable-videos --extractor-arg 'youtube:player-client=default,-tv,web_safari,web_embedded' > /dev/null 2>&1\"", afilePath, url, aria2cpar, saveDir, ptDir, zmDir, audioOption, playlistOption, encodingOption, videoqOption, cookieOption, mp4Option, myproxy, cookiefilePath, ptOption, h265tag,startplaytag, otherprmstrtag);
             }
         #endif
         //wxLogError(command);
